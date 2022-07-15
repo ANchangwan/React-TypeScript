@@ -1,6 +1,8 @@
-import { useParams, useLocation } from "react-router";
+import { Route, Switch, useLocation, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
+import { theme } from "./../theme";
+import { Outlet } from "react-router-dom";
 
 const Header = styled.header`
   height: 10vh;
@@ -32,6 +34,33 @@ const Loader = styled.span`
   font-size: 28px;
   padding: 20px;
   display: block;
+`;
+
+const OverView = styled.div`
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+`;
+
+const OverViewItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 20px;
+  span:first-child {
+    font-size: 20px;
+    font-weight: 400;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+  :hover {
+    font-size: 30px;
+    color: ${(props) => props.theme.accentColor};
+  }
+`;
+const Description = styled.p`
+  margin: 20px 0px;
 `;
 
 interface RouteParams {
@@ -103,6 +132,8 @@ function Coin() {
   const { state } = useLocation<RouteState>();
   const [info, setInfo] = useState<infoData>({});
   const [priceInfo, setPriceInfo] = useState<priceData>({});
+  console.log(`https://api.coinpaprika.com/v1/coins/${coinId}`);
+  console.log(`https://api.coinpaprika.com/v1/tickers/${coinId}`);
   useEffect(() => {
     (async () => {
       const infoData = await (
@@ -113,14 +144,48 @@ function Coin() {
       ).json();
       setInfo(infoData);
       setPriceInfo(priceData);
+      setLoading(false);
     })();
-  }, []);
+  }, [coinId]);
   return (
     <Container>
       <Header>
-        <Title>{state?.name || "loading"}</Title>
+        <Title>
+          {state?.name ? state?.name : loading ? "Loding..." : info?.name}
+        </Title>
       </Header>
-      {loading ? <Loader_>...loading</Loader_> : null}
+      {loading ? (
+        <Loader_>...loading</Loader_>
+      ) : (
+        <>
+          <OverView>
+            <OverViewItem>
+              <span>Rank:</span>
+              <span>{info?.rank}</span>
+            </OverViewItem>
+            <OverViewItem>
+              <span>Symbol:</span>
+              <span>{info?.symbol}</span>
+            </OverViewItem>
+            <OverViewItem>
+              <span>name:</span>
+              <span>{info?.name}</span>
+            </OverViewItem>
+          </OverView>
+          <Description>{info?.description}</Description>
+          <OverView>
+            <OverViewItem>
+              <span>Total Suply::</span>
+              <span>{priceInfo?.total_supply}</span>
+            </OverViewItem>
+            <OverViewItem>
+              <span>Max Supply:</span>
+              <span>{priceInfo?.max_supply}</span>
+            </OverViewItem>
+          </OverView>
+          <Outlet />
+        </>
+      )}
     </Container>
   );
 }
