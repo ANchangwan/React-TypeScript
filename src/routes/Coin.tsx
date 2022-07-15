@@ -27,13 +27,24 @@ const Container = styled.div`
 const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
+  position: absolute;
 `;
 
-const Loader_ = styled.span`
-  text-align: center;
-  font-size: 28px;
-  padding: 20px;
-  display: block;
+const Back = styled.span`
+  position: relative;
+  left: 500px;
+  padding: 10px 25px;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: 400;
+  background-color: rgba(0, 0, 0, 0.5);
+  :hover {
+    color: ${(props) => props.theme.accentColor};
+    padding: 15px 30px;
+  }
+  a {
+    display: block;
+  }
 `;
 
 const Loader = styled.span`
@@ -74,7 +85,7 @@ const Tabs = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
-  margin: 25px 0px;
+  margin: 30px 0px;
 `;
 const Tab = styled.span<{ isActive: boolean }>`
   padding: 7px 0px;
@@ -84,7 +95,7 @@ const Tab = styled.span<{ isActive: boolean }>`
   font-size: 20px;
   font-weight: 400;
   text-transform: uppercase;
-  color: ${(props) => (props.isActive ? "#FFC18E" : props.theme.textColor)};
+  color: ${(props) => (props.isActive ? "#A760FF" : props.theme.textColor)};
   background-color: rgba(0, 0, 0, 0.5);
   a {
     display: block;
@@ -181,9 +192,12 @@ function Coin() {
         <Title>
           {state?.name ? state?.name : loading ? "Loding..." : info?.name}
         </Title>
+        <Back>
+          <Link to={`/`}>Back</Link>
+        </Back>
       </Header>
       {loading ? (
-        <Loader_>...loading</Loader_>
+        <Loader>...loading</Loader>
       ) : (
         <>
           <OverView>
