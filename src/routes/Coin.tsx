@@ -1,4 +1,11 @@
-import { Route, Switch, useLocation, useParams } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  useLocation,
+  useParams,
+  Link,
+  useMatch,
+} from "react-router-dom";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { theme } from "./../theme";
@@ -61,6 +68,27 @@ const OverViewItem = styled.div`
 `;
 const Description = styled.p`
   margin: 20px 0px;
+`;
+
+const Tabs = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 25px 0px;
+`;
+const Tab = styled.span<{ isActive: boolean }>`
+  padding: 7px 0px;
+  text-align: center;
+  border-radius: 10px;
+  margin-right: 10px;
+  font-size: 20px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: ${(props) => (props.isActive ? "#FFC18E" : props.theme.textColor)};
+  background-color: rgba(0, 0, 0, 0.5);
+  a {
+    display: block;
+  }
 `;
 
 interface RouteParams {
@@ -132,8 +160,8 @@ function Coin() {
   const { state } = useLocation<RouteState>();
   const [info, setInfo] = useState<infoData>({});
   const [priceInfo, setPriceInfo] = useState<priceData>({});
-  console.log(`https://api.coinpaprika.com/v1/coins/${coinId}`);
-  console.log(`https://api.coinpaprika.com/v1/tickers/${coinId}`);
+  const priceMatch = useMatch("/:coinId/price");
+  const chartMatch = useMatch("/:coinId/chart");
   useEffect(() => {
     (async () => {
       const infoData = await (
@@ -183,6 +211,14 @@ function Coin() {
               <span>{priceInfo?.max_supply}</span>
             </OverViewItem>
           </OverView>
+          <Tabs>
+            <Tab isActive={chartMatch !== null}>
+              <Link to={`/${coinId}/chart`}>chart</Link>
+            </Tab>
+            <Tab isActive={priceMatch !== null}>
+              <Link to={`/${coinId}/price`}>Price</Link>
+            </Tab>
+          </Tabs>
           <Outlet />
         </>
       )}
