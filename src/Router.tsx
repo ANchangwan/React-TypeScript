@@ -6,16 +6,6 @@ import Chart from "./routes/Chart";
 
 function Router() {
   return (
-    //   <BrowserRouter>
-    //     <Switch>
-    //       <Route path="/:coinId">
-    //         <Coin />
-    //       </Route>
-    //       <Route path="/">
-    //         <Coins />
-    //       </Route>
-    //     </Switch>
-    //   </BrowserRouter>
     <BrowserRouter>
       <Routes>
         <Route path="/:coinId" element={<Coin />}>

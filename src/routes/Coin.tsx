@@ -11,6 +11,7 @@ import styled from "styled-components";
 import { theme } from "./../theme";
 import { Outlet } from "react-router-dom";
 
+
 const Header = styled.header`
   height: 10vh;
   display: flex;
@@ -164,6 +165,8 @@ interface PriceData {
     };
   };
 }
+
+
 
 function Coin() {
   const [loading, setLoading] = useState(true);
