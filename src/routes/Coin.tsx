@@ -6,6 +6,7 @@ import {
   Link,
   useMatch,
 } from "react-router-dom";
+import { useOutletContext } from "react-router";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { theme } from "./../theme";
@@ -167,6 +168,10 @@ interface PriceData {
   };
 }
 
+interface ChartProps {
+  coinId: string;
+}
+
 function Coin() {
   // const [loading, setLoading] = useState(true);
   const { coinId } = useParams<RouteParams>();
@@ -179,24 +184,12 @@ function Coin() {
     ["info", coinId],
     () => fetchCoinInfo(coinId)
   );
+
   const { isLoding: tickersLoading, data: tickersData } = useQuery<PriceData>(
     ["tickers", coinId],
     () => fetchCoinTickers(coinId)
   );
-  console.log(tickersData);
-  // useEffect(() => {
-  //   (async () => {
-  //     const infoData = await (
-  //       await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-  //     ).json();
-  //     const priceData = await (
-  //       await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-  //     ).json();
-  //     setInfo(infoData);
-  //     setPriceInfo(priceData);
-  //     setLoading(false);
-  //   })();
-  // }, [coinId]);
+
   const loading = infoLoading || tickersLoading;
   return (
     <Container>
@@ -245,7 +238,7 @@ function Coin() {
               <Link to={`/${coinId}/price`}>Price</Link>
             </Tab>
           </Tabs>
-          <Outlet />
+          <Outlet context={{ coinId }} />
         </>
       )}
     </Container>
