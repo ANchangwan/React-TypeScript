@@ -19,12 +19,10 @@ interface IHistorycal {
 }
 
 function Chart() {
-  const params = useParams();
   const { coinId } = useOutletContext<ChartProps>();
   const { isLoading, data } = useQuery<IHistorycal[]>(["ohlcv", coinId], () =>
     fetchCoinHistory(coinId)
   );
-
   return (
     <div>
       {isLoading ? (
@@ -59,6 +57,18 @@ function Chart() {
               labels: { show: false },
               axisTicks: { show: false },
               axisBorder: { show: false },
+              type: "datetime",
+              categories: data?.map((price) => price.time_close),
+            },
+            fill: {
+              type: "gradient",
+              gradient: { gradientToColors: ["#0be881"], stops: [0, 100] },
+            },
+            colors: ["#0fbcf9"],
+            tooltip: {
+              y: {
+                formatter: (value) => `${value.toFixed(2)}`,
+              },
             },
           }}
         />
