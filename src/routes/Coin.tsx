@@ -13,6 +13,7 @@ import { theme } from "./../theme";
 import { Outlet } from "react-router-dom";
 import { useQuery } from "react-query";
 import { fetchCoinTickers, fetchCoinInfo } from "./../api";
+import { Helmet } from "react-helmet";
 
 const Header = styled.header`
   height: 10vh;
@@ -193,6 +194,11 @@ function Coin() {
   const loading = infoLoading || tickersLoading;
   return (
     <Container>
+      <Helmet>
+        <title>
+          {state?.name ? state?.name : loading ? "Loding..." : infoData?.name}
+        </title>
+      </Helmet>
       <Header>
         <Title>
           {state?.name ? state?.name : loading ? "Loding..." : infoData?.name}

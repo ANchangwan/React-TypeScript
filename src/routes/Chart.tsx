@@ -2,6 +2,7 @@ import { useQuery } from "react-query";
 import { useParams, useOutletContext } from "react-router-dom";
 import { fetchCoinHistory } from "../api";
 import ApexChart from "react-apexcharts";
+import { Helmet } from "react-helmet";
 
 interface ChartProps {
   coinId: string;
@@ -20,8 +21,12 @@ interface IHistorycal {
 
 function Chart() {
   const { coinId } = useOutletContext<ChartProps>();
-  const { isLoading, data } = useQuery<IHistorycal[]>(["ohlcv", coinId], () =>
-    fetchCoinHistory(coinId)
+  const { isLoading, data } = useQuery<IHistorycal[]>(
+    ["ohlcv", coinId],
+    () => fetchCoinHistory(coinId),
+    {
+      refetchInterval: 5000,
+    }
   );
   return (
     <div>
