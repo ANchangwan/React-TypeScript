@@ -14,9 +14,7 @@ const queryClient = new QueryClient();
 root.render(
   <div>
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
+      <App />
     </QueryClientProvider>
   </div>
 );
