@@ -4,11 +4,9 @@ import Coin from "./routes/Coin";
 import Price from "./routes/Price";
 import Chart from "./routes/Chart";
 
-interface IRouterProps {
-  toggleDark: () => void;
-}
+interface IRouterProps {}
 
-function Router({ toggleDark }: IRouterProps) {
+function Router({}: IRouterProps) {
   return (
     <BrowserRouter>
       <Routes>
@@ -16,7 +14,7 @@ function Router({ toggleDark }: IRouterProps) {
           <Route path="price" element={<Price />} />
           <Route path="chart" element={<Chart />} />
         </Route>
-        <Route path="/" element={<Coins toggleDark={toggleDark} />} />
+        <Route path="/" element={<Coins />} />
       </Routes>
     </BrowserRouter>
   );

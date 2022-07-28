@@ -3,6 +3,8 @@ import { useParams, useOutletContext } from "react-router-dom";
 import { fetchCoinHistory } from "../api";
 import ApexChart from "react-apexcharts";
 import { Helmet } from "react-helmet";
+import { isDarkAtom } from "./atoms";
+import { useRecoilValue } from "recoil";
 
 interface ChartProps {
   coinId: string;

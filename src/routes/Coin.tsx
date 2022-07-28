@@ -169,9 +169,7 @@ interface PriceData {
   };
 }
 
-interface ChartProps {
-  coinId: string;
-}
+interface ChartProps {}
 
 function Coin() {
   // const [loading, setLoading] = useState(true);
