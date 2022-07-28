@@ -20,6 +20,7 @@ interface IHistorycal {
 }
 
 function Chart() {
+  const isDark = useRecoilValue(isDarkAtom);
   const { coinId } = useOutletContext<ChartProps>();
   const { isLoading, data } = useQuery<IHistorycal[]>(
     ["ohlcv", coinId],
@@ -38,7 +39,7 @@ function Chart() {
           series={[{ name: "Price", data: data?.map((price) => price.close) }]}
           options={{
             theme: {
-              mode: "dark",
+              mode: isDark ? "dark" : "light",
             },
             chart: {
               toolbar: {
